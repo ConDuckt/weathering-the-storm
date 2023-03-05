@@ -4,12 +4,25 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Weather the Storm</title>
         <link rel="reset" href="assets/css/reset.css">
         <link rel="style" href="assets/css/style.css">
-        <script src="assets/script.js" defer></script>
+        <script src="assets/js/script.js" defer></script>
     </head>
     <body>
-        
+        <main>
+            <header>
+                <h1>Weather the Storm</h1>
+                <h2>a webapp by ConDuckt</h2>
+            </header>
+            <section>
+                <form id="city-form">
+                    <input type="text" id="city-query" />
+                    <input type="submit" value="search" />
+                </form>
+            </section>
+            <section id="current-card"></section>
+            <section id="forecast-card"></section>
+        </main>
     </body>
 </html>
