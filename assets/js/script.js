@@ -5,7 +5,6 @@ let searchInput = document.querySelector("#search-input");
 let mainContainer = document.querySelector("#main-card");
 let subContainer = document.querySelector("#under-cards");
 
-
 function displayWeather(event) {
     event.preventDefault();
 
@@ -32,11 +31,20 @@ function displayWeather(event) {
                     })
 
             .then(function (result) {
-                console.log(result);        
+                console.log(result);
+                
+                if (!document.getElementById(searchInput.value)) {
+                    var button = document.createElement("button");
+                    button.id = searchInput.value;
+                    button.value = searchInput.value;
+                    button.textContent = searchInput.value;
+                    button.onclick = event;
+            
+                    cityForm.appendChild(button);
+
+            };
         });
-
     })};
-
 
 
 cityForm.addEventListener('submit', displayWeather);
@@ -47,8 +55,6 @@ cityForm.addEventListener('submit', displayWeather);
 /*
 
 
-
-1. Display a search bar form with button.
 2. Get search history from localStorage.
 3. Display past searches as buttons beneath form.
     a. On click, append cards in the manner of 4c and 4d below.
