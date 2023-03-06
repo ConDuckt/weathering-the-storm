@@ -1,39 +1,32 @@
-
-
+// setting global variables
 let cityForm = document.querySelector("#city-form");
 let searchInput = document.querySelector("#search-input");
 let mainContainer = document.querySelector("#main-card");
 let subContainer = document.querySelector("#under-cards");
 let locationIcon = document.querySelector(".weather-icon");
-
-
+// webapp main function
 function displayWeather(event) {
     event.preventDefault();
-
+// getting a city's coordinates via an initial API call
     let locationUrl = ("http://api.openweathermap.org/geo/1.0/direct?q=" + searchInput.value + "&appid=13fc8a4828ae1fb9669507e9c2cc39cf");
-       
-        console.log("locationUrl", locationUrl);
-        console.log("searchInput", searchInput.value);
 
     fetch(locationUrl)
         .then(function (location) {
             return location.json();
         })
-
+// plugging the coordinates into a second API call
         .then(function (coordinates) {
             let latitude = (coordinates[0].lat);
             let longitude = (coordinates[0].lon);
             let weatherUrl =  ("https://api.openweathermap.org/data/2.5/forecast?lat=" +  latitude + "&lon=" + longitude + "&units=imperial&appid=13fc8a4828ae1fb9669507e9c2cc39cf");
 
-            console.log("weatherUrl", weatherUrl);
-
             fetch(weatherUrl)
                 .then(function (weather) {
                     return weather.json();
                     })
-
+// using the second call JSON
             .then(function (result) {
-
+// creating a button for new cities entered into form
                 if (!document.getElementById(searchInput.value)) {
                     let button = document.createElement("button");
                     button.id = searchInput.value;
@@ -42,7 +35,7 @@ function displayWeather(event) {
                     button.onclick = event;
             
                     cityForm.appendChild(button);
-
+// getting JSON data for current weather
                     let currentWeather = [
                         (result.city.name),
                         (result.list[0].dt_txt),
@@ -50,54 +43,21 @@ function displayWeather(event) {
                         ("Humidity: " + result.list[0].main.humidity + "%"),
                         ("Windspeed: " + result.list[0].wind.speed + "mi/h")
                     ];
-
-                    let dayTwo = [
-                        (result.city.name),
-                        (result.list[7].dt_txt),
-                        ("Temperature: " + result.list[7].main.temp + "°F"),
-                        ("Humidity: " + result.list[7].main.humidity + "%"),
-                        ("Windspeed: " + result.list[7].wind.speed + "mi/h")
-                    ];
-
-                    let dayThree = [
-                        (result.city.name),
-                        (result.list[15].dt_txt),
-                        ("Temperature: " + result.list[15].main.temp + "°F"),
-                        ("Humidity: " + result.list[15].main.humidity + "%"),
-                        ("Windspeed: " + result.list[15].wind.speed + "mi/h")
-                    ];
-
-                    let dayFour = [
-                        (result.city.name),
-                        (result.list[23].dt_txt),
-                        ("Temperature: " + result.list[23].main.temp + "°F"),
-                        ("Humidity: " + result.list[23].main.humidity + "%"),
-                        ("Windspeed: " + result.list[23].wind.speed + "mi/h")
-                    ];
-
-                    let dayFive = [
-                        (result.city.name),
-                        (result.list[31].dt_txt),
-                        ("Temperature: " + result.list[31].main.temp + "°F"),
-                        ("Humidity: " + result.list[31].main.humidity + "%"),
-                        ("Windspeed: " + result.list[31].wind.speed + "mi/h")
-                    ];
-                    
-                    let daySix = [
-                        (result.city.name),
-                        (result.list[39].dt_txt),
-                        ("Temperature: " + result.list[39].main.temp + "°F"),
-                        ("Humidity: " + result.list[39].main.humidity + "%"),
-                        ("Windspeed: " + result.list[39].wind.speed + "mi/h")
-                    ];
-
+// getting JSON data for 5-day forecast
+                    let forecastArray = [];
+// using for loop to specify every 8th indexed item since JSON returns 8 timestamps/day
+                    for (var i = 7; i < result.list.length; i+=8) {
+                        forecastArray.push([
+                            (result.city.name),
+                            (result.list[i].dt_txt),
+                            ("Temperature: " + result.list[i].main.temp + "°F"),
+                            ("Humidity: " + result.list[i].main.humidity + "%"),
+                            ("Windspeed: " + result.list[i].wind.speed + "mi/h"),
+                        ]);
+                    };
                 
                     console.log(currentWeather);
-                    console.log(dayTwo);
-                    console.log(dayThree);
-                    console.log(dayFour);
-                    console.log(dayFive);
-                    console.log(daySix);
+                    console.log(forecastArray);
 
                   }});
             })};
